@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&family=Italiana&display=swap');
-
+@font-face {
+	font-family: Branch;
+	src: url(font/Branch.otf);
+}
 * {
     margin: 0;
     padding: 0;
