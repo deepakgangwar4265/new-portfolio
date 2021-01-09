@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&family=Italiana&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+}
+
+:root {
+	font-size: 16px;
+}
+::-webkit-scrollbar {
+    width: 12px;
+    display: none;
+}
+ 
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+}
+
+[data-scroll] {
+	will-change: transform;
+}
+body {
+    background-color: #f6f5f1;
+    color: #222222;
+    font-family: Neue Machina Light;
+}
+
+.hero {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    font-family: Branch Regular;
+    /* font-family: 'Gilda Display', serif; */
+    font-size: 90px;
+    margin: -25px 0;
+    color: #333;
+    font-weight: lighter;
+    position: absolute;
+    top: 120px;
+    transform: skewY(4deg);
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+h2 {
+    font-family: Branch Regular;
+    font-size: 72px;
+    font-weight: lighter;
+}
+h3 {
+    font-family: Branch Regular;
+    font-style: oblique;
+    font-weight: lighter;
+    margin-bottom: 70px;
+    width: 210px;
+    line-height: -70px;
+    font-size: 24px;
+}
+
+.hero-line {
+    width: 100%;
+    height: 80px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+section {
+    width: 100%;
+    min-height: 100vh;
+    /* background-color: #f6f5f1; */
+    padding: 0 100px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-top: 30px;
+}
+nav ul{
+    list-style-type: none;
+}
+ nav ul li {
+     display: inline-block;
+     margin: 0 10px;
+     cursor: pointer;
+ }
+
+ nav ul li {
+    position: relative;
+    color: #111111;
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 21px;
+    letter-spacing: -0.03em;
+}
+/* 
+nav ul li:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    height: 1px;
+    transform: scaleX(0);
+    transform-origin: right center;
+    background: currentColor;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+} */
+/* nav ul li:focus,
+nav ul li:hover {
+    color: #111111;
+    text-decoration: none;
+}
+nav ul li:hover:before {
+    transform: scaleX(1);
+    transform-origin: left center;
+} */
+
+/* nav ul:first-child {
+    font-family: Branch Regular;
+    font-size: 26px;
+} */
+
+.intro {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 50px;
+    color: #d1b889;
+}
+
+.ham {
+    width: 50px;
+    height: 20px;
+}
+
+.ham:hover .line2 {
+    transform: rotate(-45deg);
+}
+.ham:hover .line1 {
+    transform: rotate(45deg);
+}
+.ham:hover .line3 {
+    transform: rotate(45deg);
+}
+
+.line1 {
+    width: 12px;
+    height: 1.6px;
+    margin: 3px 0;
+    transition: all 0.2s ease;
+    background-color: #111111;
+}
+.line2 {
+    width: 20px;
+    height: 1.2px;
+    margin: 3px 0;
+    transition: all 0.2s ease;
+    background-color: #111111;
+}
+.line3 {
+    width: 12px;
+    height: 1.6px;
+    margin: 3px 0;
+    margin-left: 8px;
+    transition: all 0.2s ease;
+    background-color: #111111;
+}
+
+.second-para {
+    background-color: #222222;
+    width: 340px;
+    margin: 60px 0 20px 0;
+    height: 1px;
+}
+
+.third-para {
+    border-bottom: 1px solid #222222;
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    top: 20vh;
+    width: 340px;
+    padding-bottom: 20px;
+}
+
+p {
+    font-size: 14px;
+}
+
+.work {
+    margin-top: 25px;
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #222;
+}
+
+h4 {
+    font-family: Branch Light;
+    font-weight: lighter;
+    font-size: 36px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    height: 40px;
+}
+h4 span {
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+h4 span::after {
+    content: attr(getContent);
+    display: block;
+}
+h4 span:hover {
+    transform: translate3d(0, -52px, 0);
+}
+
+footer {
+    width: 100%;
+    background-color: #222222;
+    min-height: 110vh;
+    color: #f6f5f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+footer p {
+    width: 200px;
+    margin: 2px 0;
+    cursor: pointer;
+}
+footer p:hover {
+    text-decoration: line-through;
+}
+
+.copyright {
+    position: absolute;
+    bottom: 50px;
+    opacity: 0.6;
+    font-size: 9px;
+}
+.copyright:hover {
+    text-decoration: none;
+}
+
+.work-section {
+    margin-bottom: 50vh;
+}
+
+.work-img img{
+    width: 300px;
+    position: absolute;
+    left: 20%;
+    margin-top: -30%;
+}
+
+#work-img1, #work-img2, #work-img3, #work-img4, #work-img5, #work-img6, #work-img7, #work-img8 {
+    visibility: hidden;
+}
