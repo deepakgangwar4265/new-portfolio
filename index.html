@@ -144,9 +144,154 @@
 				</footer>
 			</div>
 		</main>
+		<script>/* ******************for smooth scroll demo.js********************** */
+{const MathUtils={map:(x,a,b,c,d)=>(x-a)*(d-c)/(b-a)+c,lerp:(a,b,n)=>(1-n)*a+n*b};const body=document.body;let winsize;const calcWinsize=()=>winsize={width:window.innerWidth,height:window.innerHeight};calcWinsize();window.addEventListener('resize',calcWinsize);let docScroll;const getPageYScroll=()=>docScroll=window.pageYOffset||document.documentElement.scrollTop;window.addEventListener('scroll',getPageYScroll);window.addEventListener('scroll',function(){let hearing=document.querySelector('#hearing1');let rectHearing=hearing.getBoundingClientRect();if((rectHearing.top-window.innerHeight+5)<0){document.querySelector("#hearing1").style.transform='translate3d(0,-92px,0) skewY(0deg)';document.querySelector("#hearing1").style.transitionDelay='0.4s';document.querySelector("#hearing2").style.transform='translate3d(0,-92px,0) skewY(0deg)';document.querySelector("#hearing2").style.transitionDelay='0.6s';document.querySelector("#hearing3").style.transform='translate3d(0,-92px,0) skewY(0deg)';document.querySelector("#hearing3").style.transitionDelay='0.8s'}
+let workHeading=document.querySelector('#work-heading1');let rectWorkHeading=workHeading.getBoundingClientRect();if((rectWorkHeading.top-window.innerHeight)<0){document.querySelector("#work-heading1").style.transform='translate3d(0,-80px,0) skewY(0deg)';document.querySelector("#work-heading1").style.transitionDelay='0.4s'}});class Item{constructor(el){this.DOM={el:el};this.DOM.image=this.DOM.el.querySelector('.item__img');this.renderedStyles={innerTranslationY:{previous:0,current:0,ease:0.1,maxValue:parseInt(getComputedStyle(this.DOM.image).getPropertyValue('--overflow'),10),setValue:()=>{const maxValue=this.renderedStyles.innerTranslationY.maxValue;const minValue=-1*maxValue;return Math.max(Math.min(MathUtils.map(this.props.top-docScroll,winsize.height,-1*this.props.height,minValue,maxValue),maxValue),minValue)}}};this.update();this.observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>this.isVisible=entry.intersectionRatio>0)});this.observer.observe(this.DOM.el);this.initEvents()}
+update(){this.getSize();for(const key in this.renderedStyles){this.renderedStyles[key].current=this.renderedStyles[key].previous=this.renderedStyles[key].setValue()}
+this.layout()}
+getSize(){const rect=this.DOM.el.getBoundingClientRect();this.props={height:rect.height,top:docScroll+rect.top}}
+initEvents(){window.addEventListener('resize',()=>this.resize())}
+resize(){this.update()}
+render(){for(const key in this.renderedStyles){this.renderedStyles[key].current=this.renderedStyles[key].setValue();this.renderedStyles[key].previous=MathUtils.lerp(this.renderedStyles[key].previous,this.renderedStyles[key].current,this.renderedStyles[key].ease)}
+this.layout()}
+layout(){this.DOM.image.style.transform=`translate3d(0,${this.renderedStyles.innerTranslationY.previous}px,0)`}}
+class SmoothScroll{constructor(){this.DOM={main:document.querySelector('main')};this.DOM.scrollable=this.DOM.main.querySelector('div[data-scroll]');this.items=[];[...this.DOM.main.querySelectorAll('.content > .item')].forEach(item=>this.items.push(new Item(item)));this.renderedStyles={translationY:{previous:0,current:0,ease:0.1,setValue:()=>docScroll}};this.setSize();this.update();this.style();this.initEvents();requestAnimationFrame(()=>this.render())}
+update(){for(const key in this.renderedStyles){this.renderedStyles[key].current=this.renderedStyles[key].previous=this.renderedStyles[key].setValue()}
+this.layout()}
+layout(){this.DOM.scrollable.style.transform=`translate3d(0,${-1*this.renderedStyles.translationY.previous}px,0)`}
+setSize(){body.style.height=`${this.DOM.scrollable.scrollHeight}px`}
+style(){this.DOM.main.style.position='fixed';this.DOM.main.style.width=this.DOM.main.style.height='100%';this.DOM.main.style.top=this.DOM.main.style.left=0;this.DOM.main.style.overflow='hidden'}
+initEvents(){window.addEventListener('resize',()=>this.setSize())}
+render(){for(const key in this.renderedStyles){this.renderedStyles[key].current=this.renderedStyles[key].setValue();this.renderedStyles[key].previous=MathUtils.lerp(this.renderedStyles[key].previous,this.renderedStyles[key].current,this.renderedStyles[key].ease)}
+this.layout();for(const item of this.items){if(item.isVisible){item.render()}}
+requestAnimationFrame(()=>this.render())}}
+const preloadImages=()=>{return new Promise((resolve,reject)=>{imagesLoaded(document.querySelectorAll('.item__img'),{background:!0},resolve)})};preloadImages().then(()=>{document.body.classList.remove('loading');getPageYScroll();new SmoothScroll()})}
+
+/*!
+ * imagesLoaded PACKAGED v4.1.1
+ * JavaScript is all like "You images are done yet or what?"
+ * MIT License
+ */
+
+!function(t,e){"function"==typeof define&&define.amd?define("ev-emitter/ev-emitter",e):"object"==typeof module&&module.exports?module.exports=e():t.EvEmitter=e()}("undefined"!=typeof window?window:this,function(){function t(){}var e=t.prototype;return e.on=function(t,e){if(t&&e){var i=this._events=this._events||{},n=i[t]=i[t]||[];return-1==n.indexOf(e)&&n.push(e),this}},e.once=function(t,e){if(t&&e){this.on(t,e);var i=this._onceEvents=this._onceEvents||{},n=i[t]=i[t]||{};return n[e]=!0,this}},e.off=function(t,e){var i=this._events&&this._events[t];if(i&&i.length){var n=i.indexOf(e);return-1!=n&&i.splice(n,1),this}},e.emitEvent=function(t,e){var i=this._events&&this._events[t];if(i&&i.length){var n=0,o=i[n];e=e||[];for(var r=this._onceEvents&&this._onceEvents[t];o;){var s=r&&r[o];s&&(this.off(t,o),delete r[o]),o.apply(this,e),n+=s?0:1,o=i[n]}return this}},t}),function(t,e){"use strict";"function"==typeof define&&define.amd?define(["ev-emitter/ev-emitter"],function(i){return e(t,i)}):"object"==typeof module&&module.exports?module.exports=e(t,require("ev-emitter")):t.imagesLoaded=e(t,t.EvEmitter)}(window,function(t,e){function i(t,e){for(var i in e)t[i]=e[i];return t}function n(t){var e=[];if(Array.isArray(t))e=t;else if("number"==typeof t.length)for(var i=0;i<t.length;i++)e.push(t[i]);else e.push(t);return e}function o(t,e,r){return this instanceof o?("string"==typeof t&&(t=document.querySelectorAll(t)),this.elements=n(t),this.options=i({},this.options),"function"==typeof e?r=e:i(this.options,e),r&&this.on("always",r),this.getImages(),h&&(this.jqDeferred=new h.Deferred),void setTimeout(function(){this.check()}.bind(this))):new o(t,e,r)}function r(t){this.img=t}function s(t,e){this.url=t,this.element=e,this.img=new Image}var h=t.jQuery,a=t.console;o.prototype=Object.create(e.prototype),o.prototype.options={},o.prototype.getImages=function(){this.images=[],this.elements.forEach(this.addElementImages,this)},o.prototype.addElementImages=function(t){"IMG"==t.nodeName&&this.addImage(t),this.options.background===!0&&this.addElementBackgroundImages(t);var e=t.nodeType;if(e&&d[e]){for(var i=t.querySelectorAll("img"),n=0;n<i.length;n++){var o=i[n];this.addImage(o)}if("string"==typeof this.options.background){var r=t.querySelectorAll(this.options.background);for(n=0;n<r.length;n++){var s=r[n];this.addElementBackgroundImages(s)}}}};var d={1:!0,9:!0,11:!0};return o.prototype.addElementBackgroundImages=function(t){var e=getComputedStyle(t);if(e)for(var i=/url\((['"])?(.*?)\1\)/gi,n=i.exec(e.backgroundImage);null!==n;){var o=n&&n[2];o&&this.addBackground(o,t),n=i.exec(e.backgroundImage)}},o.prototype.addImage=function(t){var e=new r(t);this.images.push(e)},o.prototype.addBackground=function(t,e){var i=new s(t,e);this.images.push(i)},o.prototype.check=function(){function t(t,i,n){setTimeout(function(){e.progress(t,i,n)})}var e=this;return this.progressedCount=0,this.hasAnyBroken=!1,this.images.length?void this.images.forEach(function(e){e.once("progress",t),e.check()}):void this.complete()},o.prototype.progress=function(t,e,i){this.progressedCount++,this.hasAnyBroken=this.hasAnyBroken||!t.isLoaded,this.emitEvent("progress",[this,t,e]),this.jqDeferred&&this.jqDeferred.notify&&this.jqDeferred.notify(this,t),this.progressedCount==this.images.length&&this.complete(),this.options.debug&&a&&a.log("progress: "+i,t,e)},o.prototype.complete=function(){var t=this.hasAnyBroken?"fail":"done";if(this.isComplete=!0,this.emitEvent(t,[this]),this.emitEvent("always",[this]),this.jqDeferred){var e=this.hasAnyBroken?"reject":"resolve";this.jqDeferred[e](this)}},r.prototype=Object.create(e.prototype),r.prototype.check=function(){var t=this.getIsImageComplete();return t?void this.confirm(0!==this.img.naturalWidth,"naturalWidth"):(this.proxyImage=new Image,this.proxyImage.addEventListener("load",this),this.proxyImage.addEventListener("error",this),this.img.addEventListener("load",this),this.img.addEventListener("error",this),void(this.proxyImage.src=this.img.src))},r.prototype.getIsImageComplete=function(){return this.img.complete&&void 0!==this.img.naturalWidth},r.prototype.confirm=function(t,e){this.isLoaded=t,this.emitEvent("progress",[this,this.img,e])},r.prototype.handleEvent=function(t){var e="on"+t.type;this[e]&&this[e](t)},r.prototype.onload=function(){this.confirm(!0,"onload"),this.unbindEvents()},r.prototype.onerror=function(){this.confirm(!1,"onerror"),this.unbindEvents()},r.prototype.unbindEvents=function(){this.proxyImage.removeEventListener("load",this),this.proxyImage.removeEventListener("error",this),this.img.removeEventListener("load",this),this.img.removeEventListener("error",this)},s.prototype=Object.create(r.prototype),s.prototype.check=function(){this.img.addEventListener("load",this),this.img.addEventListener("error",this),this.img.src=this.url;var t=this.getIsImageComplete();t&&(this.confirm(0!==this.img.naturalWidth,"naturalWidth"),this.unbindEvents())},s.prototype.unbindEvents=function(){this.img.removeEventListener("load",this),this.img.removeEventListener("error",this)},s.prototype.confirm=function(t,e){this.isLoaded=t,this.emitEvent("progress",[this,this.element,e])},o.makeJQueryPlugin=function(e){e=e||t.jQuery,e&&(h=e,h.fn.imagesLoaded=function(t,e){var i=new o(this,t,e);return i.jqDeferred.promise(h(this))})},o.makeJQueryPlugin(),o});
+
+/* ******************for image move index.js********************** */
+$("#work1").mouseenter(function(){$('#work-img1').css('visibility','visible')});$("#work1").mouseleave(function(){$('#work-img1').css('visibility','hidden')});$("#work2").mouseenter(function(){$('#work-img2').css('visibility','visible')});$("#work2").mouseleave(function(){$('#work-img2').css('visibility','hidden')});$("#work3").mouseenter(function(){$('#work-img3').css('visibility','visible')});$("#work3").mouseleave(function(){$('#work-img3').css('visibility','hidden')});$("#work4").mouseenter(function(){$('#work-img4').css('visibility','visible')});$("#work4").mouseleave(function(){$('#work-img4').css('visibility','hidden')});$("#work5").mouseenter(function(){$('#work-img5').css('visibility','visible')});$("#work5").mouseleave(function(){$('#work-img5').css('visibility','hidden')});$("#work6").mouseenter(function(){$('#work-img6').css('visibility','visible')});$("#work6").mouseleave(function(){$('#work-img6').css('visibility','hidden')});$("#work7").mouseenter(function(){$('#work-img7').css('visibility','visible')});$("#work7").mouseleave(function(){$('#work-img7').css('visibility','hidden')});$("#work8").mouseenter(function(){$('#work-img8').css('visibility','visible')});$("#work8").mouseleave(function(){$('#work-img8').css('visibility','hidden')});var mouseX=window.innerWidth/2,mouseY=window.innerHeight/2;var circle={el:$('#work-img1'),x:window.innerWidth/20,y:window.innerHeight/20,w:10,h:10,update:function(){l=this.x-this.w/2;t=this.y-this.h/2;this.el.css({'transform':'translate3d('+l/1.6+'px, '+t/1.6+'px, 0)'})}}
+$(window).mousemove(function(e){mouseX=e.clientX;mouseY=e.clientY})
+setInterval(move,1000/60)
+function move(){circle.x=lerp(circle.x,mouseX,0.1);circle.y=lerp(circle.y,mouseY,0.1);circle.update()}
+function lerp(start,end,amt){return(1-amt)*start+amt*end}
+var circle2={el:$('#work-img2'),x:window.innerWidth/20,y:window.innerHeight/20,w:10,h:10,update:function(){l=this.x-this.w/2;t=this.y-this.h/2;this.el.css({'transform':'translate3d('+l/1.6+'px, '+t/1.6+'px, 0)'})}}
+setInterval(move2,1000/60)
+function move2(){circle2.x=lerp(circle2.x,mouseX,0.1);circle2.y=lerp(circle2.y,mouseY,0.1);circle2.update()}
+var circle3={el:$('#work-img3'),x:window.innerWidth/20,y:window.innerHeight/20,w:10,h:10,update:function(){l=this.x-this.w/2;t=this.y-this.h/2;this.el.css({'transform':'translate3d('+l/1.6+'px, '+t/1.6+'px, 0)'})}}
+setInterval(move3,1000/60)
+function move3(){circle3.x=lerp(circle3.x,mouseX,0.1);circle3.y=lerp(circle3.y,mouseY,0.1);circle3.update()}
+var circle4={el:$('#work-img4'),x:window.innerWidth/20,y:window.innerHeight/20,w:10,h:10,update:function(){l=this.x-this.w/2;t=this.y-this.h/2;this.el.css({'transform':'translate3d('+l/1.6+'px, '+t/1.6+'px, 0)'})}}
+setInterval(move4,1000/60)
+function move4(){circle4.x=lerp(circle4.x,mouseX,0.1);circle4.y=lerp(circle4.y,mouseY,0.1);circle4.update()}
+var circle5={el:$('#work-img5'),x:window.innerWidth/20,y:window.innerHeight/20,w:10,h:10,update:function(){l=this.x-this.w/2;t=this.y-this.h/2;this.el.css({'transform':'translate3d('+l/1.6+'px, '+t/1.6+'px, 0)'})}}
+setInterval(move5,1000/60)
+function move5(){circle5.x=lerp(circle5.x,mouseX,0.1);circle5.y=lerp(circle5.y,mouseY,0.1);circle5.update()}
+var circle6={el:$('#work-img6'),x:window.innerWidth/20,y:window.innerHeight/20,w:10,h:10,update:function(){l=this.x-this.w/2;t=this.y-this.h/2;this.el.css({'transform':'translate3d('+l/1.6+'px, '+t/1.6+'px, 0)'})}}
+setInterval(move6,1000/60)
+function move6(){circle6.x=lerp(circle6.x,mouseX,0.1);circle6.y=lerp(circle6.y,mouseY,0.1);circle6.update()}
+var circle7={el:$('#work-img7'),x:window.innerWidth/20,y:window.innerHeight/20,w:10,h:10,update:function(){l=this.x-this.w/2;t=this.y-this.h/2;this.el.css({'transform':'translate3d('+l/1.6+'px, '+t/1.6+'px, 0)'})}}
+setInterval(move7,1000/60)
+function move7(){circle7.x=lerp(circle7.x,mouseX,0.1);circle7.y=lerp(circle7.y,mouseY,0.1);circle7.update()}
+var circle8={el:$('#work-img8'),x:window.innerWidth/20,y:window.innerHeight/20,w:10,h:10,update:function(){l=this.x-this.w/2;t=this.y-this.h/2;this.el.css({'transform':'translate3d('+l/1.6+'px, '+t/1.6+'px, 0)'})}}
+setInterval(move8,1000/60)
+function move8(){circle8.x=lerp(circle8.x,mouseX,0.1);circle8.y=lerp(circle8.y,mouseY,0.1);circle8.update()}
+
+/* ******************for menu mennu.js********************** */
+const bounds={ww:window.innerWidth,wh:window.innerHeight}
+class Transition{constructor(){const{ww,wh}=bounds
+this.renderer=new THREE.WebGLRenderer({alpha:!0,antialias:!0,})
+this.renderer.setPixelRatio(1)
+this.renderer.setSize(ww,wh)
+this.renderer.setClearColor(0xffffff,0)
+this.scene=new THREE.Scene()
+this.camera=new THREE.OrthographicCamera(ww/-2,ww/2,wh/2,wh/-2,1,100)
+this.camera.lookAt(this.scene.position)
+this.camera.position.z=1
+document.body.appendChild(this.renderer.domElement)
+this.geo=new THREE.BufferGeometry()
+const vertices=new Float32Array([-1,-1,0,3,-1,0,-1,3,0])
+const uvs=new Float32Array([0,0,2,0,0,2])
+this.geo.setAttribute('uv',new THREE.BufferAttribute(uvs,2))
+this.geo.setAttribute('position',new THREE.BufferAttribute(vertices,3))
+this.mat=new THREE.ShaderMaterial({vertexShader:`
+          precision highp float;
+          varying vec2 vUv;
+  
+          void main(){
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+          }
+        `,fragmentShader:`
+          precision highp float;
+  
+          uniform float uProgress;
+          uniform float uPower;
+  
+          uniform bool uOut;
+  
+          vec4 transparent = vec4(0., 0., 0., 0.);
+          vec4 black = vec4(0., 0., 0., 0.9);
+  
+          #define M_PI 3.1415926535897932384626433832795
+  
+          varying vec2 vUv;
+  
+          void main() {
+            vec2 uv = vUv;
+  
+            uv.y -= ((sin(uv.x * M_PI) * uPower) * .25);
+  
+            if (!uOut) uv.y = 1. - uv.y;
+  
+            float t = smoothstep(uv.y - fwidth(uv.y), uv.y, uProgress);
+            vec4 color = mix(transparent, black, t);
+  
+            gl_FragColor = color;
+          }  
+        `,uniforms:{uProgress:{value:0},uPower:{value:0},uOut:{value:!0}},})
+this.triangle=new THREE.Mesh(this.geo,this.mat)
+this.triangle.scale.set(ww/2,wh/2,1)
+this.triangle.frustumCulled=!1
+this.scene.add(this.triangle)
+this.tl=gsap.timeline({paused:!0,defaults:{duration:1.25,ease:'power3.inOut'}})
+this.addEvents()}
+addEvents(){document.querySelector('.menu').addEventListener('click',()=>{if(this.animating)return
+this.reverse?this.in():this.out()})}
+render=()=>{this.renderer.render(this.scene,this.camera)}
+out=()=>{this.animating=!0
+this.reverse=!0
+const{uProgress}=this.mat.uniforms
+this.tl.clear().to(uProgress,{value:1,onUpdate:()=>this.render()},0).to(this.bend(),{progress:1,},0).add(()=>{this.animating=!1}).play()}
+in=()=>{this.animating=!0
+this.reverse=!1
+const{uProgress,uOut}=this.mat.uniforms
+this.tl.clear().set(uOut,{value:!1}).to(uProgress,{value:0,onUpdate:()=>this.render()},0).to(this.bend(),{progress:1,},0).set(uOut,{value:!0}).add(()=>{this.animating=!1}).play()}
+bend=()=>{const{uPower}=this.mat.uniforms
+return gsap.timeline({paused:!0,defaults:{ease:'linear',duration:0.5},}).to(uPower,{value:1}).to(uPower,{value:0})}
+resize=()=>{const{ww,wh}=bounds
+this.camera.left=ww/-2
+this.camera.right=ww/2
+this.camera.top=wh/2
+this.camera.bottom=wh/-2
+this.camera.updateProjectionMatrix()
+this.renderer.setSize(ww,wh)
+this.triangle.scale.set(ww/2,wh/2,1)}}
+const transition=new Transition()
+window.addEventListener('resize',()=>{bounds.ww=window.innerWidth
+bounds.wh=window.innerHeight
+transition.resize()})</script>
+		/*
 		<script src="js/imagesloaded.pkgd.min.js"></script>
 		<script src="js/demo.js"></script>
 		<script src="js/mennu.js"></script>
 		<script src="js/index.js"></script>
+		*/
 	</body>
 </html>
